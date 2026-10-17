@@ -1,0 +1,29 @@
+spring:
+  application:
+    name: spring-boot-demo
+  data:
+    redis:
+      host: localhost
+      port: 6379
+      password:
+  datasource:
+    url: jdbc:mysql://localhost:3306/koa_news_admin?useUnicode=true&characterEncoding=utf-8&userSSL=false&serverTimezone=GMT%2B8
+    username: root
+    password: rootHA@
+    driver-class-name: com.mysql.cj.jdbc.Driver
+server:
+  port: 8084
+
+pagehelper:
+  helper-dialect: mysql         # 数据库方言（通常可以省略，插件会自动检测）
+  reasonable: true              # 分页合理化参数：如果传 p=-1（小于1），会自动查第一页；如果传 p=9999（大于总页数），会自动查最后一页
+  support-methods-arguments: true # 支持通过 Mapper 接口参数（如 @Param）来传递分页参数
+
+jwt:
+  secret: my_super_secret_key_ha
+  expire: 86400000 # 24小时的毫秒数
+
+mybatis:
+  mapper-locations: classpath:mapper/**/*.xml
+  configuration:
+    map-underscore-to-camel-case: true # 开启驼峰转换
