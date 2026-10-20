@@ -34,7 +34,7 @@ public class TokenInterceptor implements HandlerInterceptor {
             String token = authHeader.substring(7);
             //  校验 Token 是否合法、是否过期
             JWT.require(Algorithm.HMAC256(jwtProperties.getSecret())).build().verify(token);
-            Long userId = jwtUtils.getRoleId(token);
+            Long userId = jwtUtils.getUserId(token);
             Long roleId = jwtUtils.getRoleId(token);
             request.setAttribute("userId", userId);
             request.setAttribute("roleId", roleId);

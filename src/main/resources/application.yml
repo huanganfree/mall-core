@@ -1,4 +1,9 @@
 spring:
+  #  profiles:
+  #    active: dev
+  jackson:
+    date-format: yyyy-MM-dd HH:mm:ss
+    time-zone: GMT+8
   application:
     name: spring-boot-demo
   data:
@@ -11,6 +16,13 @@ spring:
     username: root
     password: rootHA@
     driver-class-name: com.mysql.cj.jdbc.Driver
+  rabbitmq:
+    host: localhost
+    port: 5672
+    username: guest
+    password: guest
+
+
 server:
   port: 8084
 
@@ -27,3 +39,8 @@ mybatis:
   mapper-locations: classpath:mapper/**/*.xml
   configuration:
     map-underscore-to-camel-case: true # 开启驼峰转换
+logging:
+  level:
+    com.ha.springbootdemo.modules.menu.mapper.MenuMapper: debug
+    com.ha.springbootdemo.modules.user.mapper.AuthMapper: debug
+    org.springframework.web: info

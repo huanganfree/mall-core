@@ -9,6 +9,21 @@
         where phone = #{phone}
     </select>
 
+    <select id="getUserInfo" resultType="com.ha.springbootdemo.modules.user.entity.User">
+        SELECT u.id,
+               u.username,
+               u.roleId   AS roleId,
+               u.phone,
+               u.avatar,
+               u.status,
+               r.roleName AS roleName,
+               u.lastLoginTime,
+               u.nickname
+        FROM koa_news_admin.user u
+                 left join koa_news_admin.role r on u.roleId = r.id
+        where u.id = #{userId}
+    </select>
+
     <select id="getMenusByUserRole" resultType="com.ha.springbootdemo.modules.user.entity.Menu">
         SELECT m.*
         FROM koa_news_admin.role_menu rm

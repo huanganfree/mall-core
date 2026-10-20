@@ -28,22 +28,15 @@ public class JwtUtils {
         // 使用相同的密钥和算法创建一个验证器
         Algorithm algorithm = Algorithm.HMAC256(jwtProperties.getSecret());
         JWTVerifier verifier = JWT.require(algorithm).build();
-
         // 如果 Token 过期、被篡改或无效，这里会直接抛出异常
         return verifier.verify(token);
     }
 
-    /**
-     * 3. 从 Token 中获取 userId
-     */
     public Long getUserId(String token) {
         DecodedJWT jwt = verifyToken(token);
         return jwt.getClaim("userId").asLong();
     }
 
-    /**
-     * 4. 从 Token 中获取 roleId
-     */
     public Long getRoleId(String token) {
         DecodedJWT jwt = verifyToken(token);
         return jwt.getClaim("roleId").asLong();

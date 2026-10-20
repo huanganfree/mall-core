@@ -2,10 +2,10 @@ package com.ha.springbootdemo.modules.user.service;
 
 import com.ha.springbootdemo.common.JwtUtils;
 import com.ha.springbootdemo.modules.user.entity.Menu;
-import com.ha.springbootdemo.modules.user.entity.RoleMenu;
 import com.ha.springbootdemo.modules.user.entity.User;
 import com.ha.springbootdemo.modules.user.mapper.AuthMapper;
 import com.ha.springbootdemo.modules.user.vo.MenuVO;
+import com.ha.springbootdemo.modules.user.vo.UserDetailVO;
 import com.ha.springbootdemo.modules.user.vo.UserLoginVO;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.BeanUtils;
@@ -39,14 +39,20 @@ public class AuthService {
         return vo;
     }
 
+    public UserDetailVO getUserInfo(Long userId) {
+        UserDetailVO userDetailVO = new UserDetailVO();
+        User user = authMapper.getUserInfo(userId);
+        BeanUtils.copyProperties(user, userDetailVO);
+        return userDetailVO;
+    }
+
     //    数据库的实体类字段转为给前端的vo类
     public List<MenuVO> getMenusByUserRole(Long roleId) {
         List<Menu> menuList = authMapper.getMenusByUserRole(roleId);
-        List<MenuVO> menuVOList = menuList.stream().map(menu -> {
+        return menuList.stream().map(menu -> {
             MenuVO menuVO = new MenuVO();
             BeanUtils.copyProperties(menu, menuVO);
             return menuVO;
         }).collect(Collectors.toList());
-        return menuVOList;
     }
 }

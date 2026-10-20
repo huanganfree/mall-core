@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.ha.springbootdemo.modules.goods.mapper.GoodsMapper">
+
+    <update id="initGoods">
+        update koa_news_admin.goods
+        set stock = #{goodsNum}
+        where id = 1
+    </update>
+
+    <update id="updateGoods">
+        update koa_news_admin.goods
+        set stock = #{goodsNum}
+        where id = 1
+          and stock > 0
+    </update>
+
+    <update id="reduceGoods">
+        update koa_news_admin.goods
+        set stock = stock - 1
+        where id = #{goodsId}
+          and stock > 0
+    </update>
+
+    <select id="selectById" resultType="com.ha.springbootdemo.modules.goods.entity.Goods">
+        select *
+        from koa_news_admin.goods
+        where id = #{goodsId}
+    </select>
+
+</mapper>

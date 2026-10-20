@@ -11,4 +11,6 @@ public interface AuthMapper {
     User login(String phone, String password);
 
     List<Menu> getMenusByUserRole(Long roleId);
+
+    User getUserInfo(Long userId);
 }
