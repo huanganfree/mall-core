@@ -15,7 +15,7 @@ public class InitGoods implements CommandLineRunner {
 
     @Override
     public void run(String... args) {
-        int num = 100;
+        int num = 10;
         goodsMapper.initGoods(num);
         stringRedisTemplate.opsForValue().set("stock-1", num + "");
     }

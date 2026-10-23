@@ -9,6 +9,7 @@
         where id = 1
     </update>
 
+    <!--    and stock > 0 原子性-->
     <update id="updateGoods">
         update koa_news_admin.goods
         set stock = #{goodsNum}
