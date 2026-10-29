@@ -38,7 +38,6 @@ public class SeckillServiceImpl implements SeckillService {
         // 组装 KEYS 和 ARGV
         List<String> keys = Collections.singletonList(stockKey);
         String[] args = new String[]{String.valueOf(1)};
-
         // 执行脚本
         long result = stringRedisTemplate.execute(seckillScriptLua, keys, args);
 
@@ -58,6 +57,5 @@ public class SeckillServiceImpl implements SeckillService {
             orderMapper.generateOrder(order);
             return Result.success("排队中，请稍后查看订单...");
         }
-
     }
 }

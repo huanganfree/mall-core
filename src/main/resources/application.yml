@@ -24,6 +24,8 @@ spring:
     listener:
       simple:
         auto-startup: true
+        acknowledge-mode: manual
+        prefetch: 1
 
 
 server:

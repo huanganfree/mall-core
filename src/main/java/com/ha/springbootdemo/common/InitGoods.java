@@ -6,6 +6,7 @@ import org.springframework.boot.CommandLineRunner;
 import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.stereotype.Component;
 
+//初始化同步缓存
 @RequiredArgsConstructor
 @Component
 public class InitGoods implements CommandLineRunner {

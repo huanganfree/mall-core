@@ -2,6 +2,7 @@ package com.ha.springbootdemo.modules.goods.service.impl;
 
 import com.ha.springbootdemo.common.Result;
 import com.ha.springbootdemo.dto.SeckillMessageDTO;
+import com.ha.springbootdemo.modules.goods.cache.VoucherCacheHelper;
 import com.ha.springbootdemo.modules.goods.service.SeckillService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.amqp.rabbit.core.RabbitTemplate;
@@ -22,6 +23,7 @@ public class RedisMqSeckillServiceImpl implements SeckillService {
     private final StringRedisTemplate stringRedisTemplate;
     private final DefaultRedisScript<Long> seckillScriptLua;
     private final ObjectMapper objectMapper;
+    private final VoucherCacheHelper voucherCacheHelper;
 
     @Transactional(rollbackFor = Exception.class)
     @Override
@@ -33,6 +35,10 @@ public class RedisMqSeckillServiceImpl implements SeckillService {
 //            stringRedisTemplate.opsForValue().increment("stock-" + goodsId);
 //            return Result.success("已售罄");
 //        }
+
+        if (voucherCacheHelper.getVoucherFromCache(goodsId) == null) {
+            return Result.success("没有该商品！");
+        }
 
         String stockKey = "stock-" + goodsId;
         // 组装 KEYS 和 ARGV
@@ -52,7 +58,11 @@ public class RedisMqSeckillServiceImpl implements SeckillService {
             // 核心：手动将对象揉成普通的 JSON 字符串（对标 JS 的 JSON.stringify(dto)）
             String jsonMessage = objectMapper.writeValueAsString(seckillMessageDTO);
 
-            rabbitTemplate.convertAndSend("seckill.queue", jsonMessage);
+            rabbitTemplate.convertAndSend(
+                    "seckill.normal.exchange",   // 路由器名字
+                    "seckill.routing.key",      // ✨ 带着的暗号！
+                    jsonMessage                 // 消息内容
+            );
             return Result.success("排队中");
         }
     }
